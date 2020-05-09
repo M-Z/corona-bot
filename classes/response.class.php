@@ -12,7 +12,7 @@
    */
   class Response extends Send
   {
-      protected $sender; // sender's fb ID
+    protected $sender; // sender's fb ID
     private $message; // the returned message
 
     public function __construct()

@@ -28,6 +28,7 @@
             "SUBSCRIBE_POSTBACK",             // Subsribe to statistics
             "CONFIRM_SUBSCRIBE_POSTBACK",     // User confirmed the subscribtion
             "DECLINE_SUBSCRIBE_POSTBACK",     // User declined the subscribtion
+            "HELP_POSTBACK"                   // Show all commands
           );
       }
 
@@ -63,8 +64,20 @@
                     break;
 
                 case 'SUBSCRIBE_POSTBACK':
-                  new Subscribe($this->senderID);
-                  break;
+                    new Subscribe($this->senderID);
+                    break;
+
+                case 'HELP_POSTBACK':
+                    $this->sendText(
+                        $this->senderID,
+                        HELP_DESCRIPTION.'\\n'.
+                        '\''.KEYWORD_SUBSCRIBE.'\': '.SUBSRIBTION_HELP.' \\n'.
+                        '\''.KEYWORD_UNSUBSCRIBE.'\': '.UNSUBSRIBTION_HELP.' \\n'.
+                        '\''.KEYWORD_EXTERNAL.'\': '.EXTERNAL_HELP.' \\n'.
+                        '\''.KEYWORD_HOTLINES.'\': '.HOTLINES_HELP.' \\n'.
+                        '\''.KEYWORD_STATISTICS.'\': '.STATISTICS_HELP.' \\n'
+                    );
+                    break;
 
                 default:
                     $this->sendText($this->senderID, UNSUPPORTED_BUTTON);

@@ -12,6 +12,7 @@
   define("SUBSCRIBE_TITLE", "اشترك");
   define("UNSUBSCRIBE_TITLE", "إلغاء الاشتراك");
   define("COUGH_TITLE", "أختبار الكورونا");
+  define("HELP_TITLE", "مساعدة");
 
   define("UNSUPPORTED_BUTTON", "هذا الزر غير صحيح");
 
@@ -22,3 +23,17 @@
 
   define("SUCCESSFULL_SUBSCRIBE", "تم الاشتراك في الإحصائيات اليومية 📊");
   define("SUCCESSFULL_UNSUBSCRIBE", "تم إلغاء الإشتراك");
+
+
+  define("KEYWORD_SUBSCRIBE", "اشتراك");
+  define("KEYWORD_UNSUBSCRIBE", "الغاء الاشتراك");
+  define("KEYWORD_EXTERNAL", "روابط");
+  define("KEYWORD_HOTLINES", "خطوط ساخنة");
+  define("KEYWORD_STATISTICS", "احصائيات");
+
+  define('HELP_DESCRIPTION', 'اكتب اي من الكلمات الآتية');
+  define("SUBSRIBTION_HELP", "لللإشتراك في الأحصائيات اليومية");
+  define("UNSUBSRIBTION_HELP", "للإلغاء الاشتراك");
+  define("EXTERNAL_HELP", "روابط خارجية للمزيد من التعليمات");
+  define("HOTLINES_HELP", "الخطوط الساخنة");
+  define("STATISTICS_HELP", "إحصائيات اليوم لمصر");

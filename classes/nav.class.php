@@ -19,12 +19,8 @@ class Nav extends Send implements Click {
               "text":"'. WELCOME_MESSAGE .'",
               "buttons":[{
                   "type": "postback",
-                  "title": "'. HOTLINES_TITLE .'",
-                  "payload": "HOTLINES_POSTBACK"
-                }, {
-                  "type": "postback",
-                  "title": "'. STATISTICS_TITLE .'",
-                  "payload": "STATISTICS_POSTBACK"
+                  "title": "'. HELP_TITLE .'",
+                  "payload": "HELP_POSTBACK"
                 }, {
                   "type": "postback",
                   "title": "'. LINKS_TITLE .'",
