@@ -30,6 +30,7 @@
   define("KEYWORD_EXTERNAL", "روابط");
   define("KEYWORD_HOTLINES", "خطوط ساخنة");
   define("KEYWORD_STATISTICS", "احصائيات");
+  define("KEYWORD_HELP", "المساعدة");
 
   define('HELP_DESCRIPTION', 'اكتب اي من الكلمات الآتية');
   define("SUBSRIBTION_HELP", "لللإشتراك في الأحصائيات اليومية");
@@ -37,3 +38,6 @@
   define("EXTERNAL_HELP", "روابط خارجية للمزيد من التعليمات");
   define("HOTLINES_HELP", "الخطوط الساخنة");
   define("STATISTICS_HELP", "إحصائيات اليوم لمصر");
+
+  define('DID_YOU_MEAN_MESSAGE', "هل تقصد {{word}}؟");
+  define('DID_YOU_MEAN_INCORRECT', "لم أفهمك.");

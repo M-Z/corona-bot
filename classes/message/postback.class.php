@@ -8,6 +8,7 @@
   include_once __DIR__.'/../links.class.php';
   include_once __DIR__.'/../statistics.class.php';
   include_once __DIR__.'/../subscribe.class.php';
+  include_once __DIR__.'/../help.class.php';
 
   /**
    * Handles when a button is clicked
@@ -68,15 +69,7 @@
                     break;
 
                 case 'HELP_POSTBACK':
-                    $this->sendText(
-                        $this->senderID,
-                        HELP_DESCRIPTION.'\\n'.
-                        '\''.KEYWORD_SUBSCRIBE.'\': '.SUBSRIBTION_HELP.' \\n'.
-                        '\''.KEYWORD_UNSUBSCRIBE.'\': '.UNSUBSRIBTION_HELP.' \\n'.
-                        '\''.KEYWORD_EXTERNAL.'\': '.EXTERNAL_HELP.' \\n'.
-                        '\''.KEYWORD_HOTLINES.'\': '.HOTLINES_HELP.' \\n'.
-                        '\''.KEYWORD_STATISTICS.'\': '.STATISTICS_HELP.' \\n'
-                    );
+                    new Help($this->senderID);
                     break;
 
                 default:

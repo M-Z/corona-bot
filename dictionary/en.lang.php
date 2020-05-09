@@ -37,6 +37,7 @@
   define("KEYWORD_EXTERNAL", "external links");
   define("KEYWORD_HOTLINES", "hotlines");
   define("KEYWORD_STATISTICS", "statistics");
+  define("KEYWORD_HELP", "help");
 
   /* Keywords description */
   define('HELP_DESCRIPTION', 'Send one of the following keywords.');
@@ -45,3 +46,8 @@
   define("EXTERNAL_HELP", "External Links for more information.");
   define("HOTLINES_HELP", "Egypt hotlines.");
   define("STATISTICS_HELP", "Today's statistics for Egypt.");
+
+
+  /* Did you mean? */
+  define('DID_YOU_MEAN_MESSAGE', 'Did you mean {{word}}?');
+  define('DID_YOU_MEAN_INCORRECT', "Sorry, I don't understand this.");
