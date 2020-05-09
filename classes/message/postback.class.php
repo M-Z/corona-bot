@@ -7,64 +7,73 @@
   include_once __DIR__.'/../hotlines.class.php';
   include_once __DIR__.'/../links.class.php';
   include_once __DIR__.'/../statistics.class.php';
+  include_once __DIR__.'/../subscribe.class.php';
 
   /**
    * Handles when a button is clicked
    */
-  class PostBack extends Send implements CallBack {
+  class PostBack extends Send implements CallBack
+  {
+      private $allowedPayloads;
+      private $senderID;
 
-    private $allowedPayloads;
-    private $senderID;
-
-    function __construct($senderID) {
-      $this->senderID = $senderID;
-      $this->allowedPayloads = array(
-        "CORONA_GETTING_STARTED_PAYLOAD", // Getting started
-        "HOTLINES_POSTBACK",              // Presistent menu Hot lines
-        "STATISTICS_POSTBACK",            // Presistent menu Statistics
-        "LINKS_POSTBACK"                  // Important links
-      );
-    }
-
-    /*
-    * Parses the user message and replied to it.
-    */
-    public function payload($payload) {
-
-      try {
-        $payload = $payload['postback']['payload'];
-      } catch (\Exception $e) {
-        $this->sendText($this->senderID, "Incorrect button clicked.");
-        new Nav($this->senderID);
-        return;
+      public function __construct($senderID)
+      {
+          $this->senderID = $senderID;
+          $this->allowedPayloads = array(
+            "CORONA_GETTING_STARTED_PAYLOAD", // Getting started
+            "HOTLINES_POSTBACK",              // Presistent menu Hot lines
+            "STATISTICS_POSTBACK",            // Presistent menu Statistics
+            "LINKS_POSTBACK",                 // Important links
+            "SUBSCRIBE_POSTBACK",             // Subsribe to statistics
+            "CONFIRM_SUBSCRIBE_POSTBACK",     // User confirmed the subscribtion
+            "DECLINE_SUBSCRIBE_POSTBACK",     // User declined the subscribtion
+          );
       }
 
-      if (in_array($payload, $this->allowedPayloads)) {
-        switch ($payload) {
-          case 'CORONA_GETTING_STARTED_PAYLOAD':
-            new GetStarted($this->senderID);
-            break;
-
-          case 'HOTLINES_POSTBACK':
-            new HotLines($this->senderID);
-            break;
-
-          case 'LINKS_POSTBACK':
-            new Links($this->senderID);
-            break;
-
-          case 'STATISTICS_POSTBACK':
-            new Statistics($this->senderID);
-            break;
-
-          default:
-            $this->sendText($this->senderID, UNSUPPORTED_BUTTON);
-            break;
+      /*
+      * Parses the user message and replied to it.
+      */
+      public function payload($payload)
+      {
+        try {
+            $payload = $payload['postback']['payload'];
+        } catch (\Exception $e) {
+            $this->sendText($this->senderID, "Incorrect button clicked.");
+            new Nav($this->senderID);
+            return;
         }
-      } else {
-        $this->sendText($this->senderID, UNSUPPORTED_BUTTON);
-      }
 
-      // new Nav($this->senderID);
-    }
+        if (in_array($payload, $this->allowedPayloads)) {
+            switch ($payload) {
+                case 'CORONA_GETTING_STARTED_PAYLOAD':
+                    new GetStarted($this->senderID);
+                    break;
+
+                case 'HOTLINES_POSTBACK':
+                    new HotLines($this->senderID);
+                    break;
+
+                case 'LINKS_POSTBACK':
+                    new Links($this->senderID);
+                    break;
+
+                case 'STATISTICS_POSTBACK':
+                    new Statistics($this->senderID);
+                    break;
+
+                case 'SUBSCRIBE_POSTBACK':
+                  new Subscribe($this->senderID);
+                  break;
+
+                default:
+                    $this->sendText($this->senderID, UNSUPPORTED_BUTTON);
+                    break;
+            }
+        } else {
+            $this->sendText($this->senderID, UNSUPPORTED_BUTTON);
+        }
+
+        new Nav($this->senderID);
+      }
   }

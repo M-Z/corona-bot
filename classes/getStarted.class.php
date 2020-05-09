@@ -7,15 +7,16 @@
   /**
    * Handles when the user presses get started.
    */
-  class GetStarted extends Send implements Click {
+  class GetStarted extends Send implements Click
+  {
+      public function __construct($senderID)
+      {
+          $userInfo = $this->getUserInfo($senderID);
+          $this->saveUser($userInfo);
 
-    function __construct($senderID) {
+          $this->typing($senderID, "on");
 
-      $this->typing($senderID, "on");
-
-      $userInfo = $this->getUserInfo($senderID);
-      $this->sendText($senderID, str_replace("{{first_name}}", $userInfo['first_name'], WELCOME_MESSAGE_2));
-      $this->sendText($senderID, WELCOME_MESSAGE_3);
-    }
-
+          $this->sendText($senderID, str_replace("{{first_name}}", $userInfo['first_name'], WELCOME_MESSAGE_2));
+          $this->sendText($senderID, WELCOME_MESSAGE_3);
+      }
   }

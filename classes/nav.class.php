@@ -29,6 +29,10 @@ class Nav extends Send implements Click {
                   "type": "postback",
                   "title": "'. LINKS_TITLE .'",
                   "payload": "LINKS_POSTBACK"
+                }, {
+                    "type": "postback",
+                    "title": "'. SUBSCRIBE_TITLE .'",
+                    "payload": "SUBSCRIBE_POSTBACK"
                 }]
             }
           }

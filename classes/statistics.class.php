@@ -31,6 +31,9 @@
       );
     }
 
+    /*
+    *   Retrieves a JSON payload of Egypt's today statistics
+    */
     private function getStats() {
       $ch = curl_init("https://corona.lmao.ninja/v2/countries/egypt?yesterday=false&strict=true&query");
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

@@ -2,10 +2,12 @@
 
   namespace corona_bot;
 
+  include_once 'db.class.php';
+
   /**
    * Sends the request
    */
-  class Send {
+  class Send extends dbQuery {
 
     private $webhookURL = 'https://graph.facebook.com/v7.0/me/messages?access_token=' . ACCESS_TOKEN;
     private $profileURL = 'https://graph.facebook.com/v7.0/{{sender_ID}}?fields=first_name,locale&access_token=' . ACCESS_TOKEN;
@@ -55,6 +57,44 @@
       $result = curl_exec($ch);
       curl_close($ch);
       return json_decode($result,true);
+    }
+
+    /*
+    *   Saves or updates user info into our DB
+    */
+    protected function saveUser($userInfo) {
+        $this->connect();
+
+        if (!empty($this->query("SELECT `id` FROM `fb_users` WHERE `fb_id`=?", $userInfo['id']))) {
+            $this->query(
+                "UPDATE `fb_users` SET `first_name`=? AND `locale`=? WHERE `fb_id`=?",
+                $userInfo['first_name'],
+                $userInfo['locale'],
+                $userInfo['id']
+            );
+        } else {
+            $this->query(
+                "INSERT INTO `fb_users`
+                    (`fb_id`, `first_name`,`locale`)
+                    VALUES(?, ?, ?)
+                ",
+                $userInfo['id'],
+                $userInfo['first_name'],
+                $userInfo['locale']
+            );
+        }
+    }
+
+    protected function subscribe($ID) {
+        $this->connect();
+        $this->query("UPDATE `fb_users` SET `is_subscribed`=1 WHERE `fb_id`=?", $ID);
+        $this->sendText($ID, SUCCESSFULL_SUBSCRIBE);
+    }
+
+    protected function unsubscribe($ID) {
+        $this->connect();
+        $this->query("UPDATE `fb_users` SET `is_subscribed`=0 WHERE `fb_id`=?", $ID);
+        $this->sendText($ID, SUCCESSFULL_UNSUBSCRIBE);
     }
 
   }

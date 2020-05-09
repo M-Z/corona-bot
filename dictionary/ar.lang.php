@@ -9,6 +9,8 @@
   define("FAQ_TITLE", "الأسئلة الشائعة ❓");
   define("LINKS_TITLE", "مواقع مهمة 🌐");
   define("GOV_SITE_TITLE", "موقع الوزارة");
+  define("SUBSCRIBE_TITLE", "اشترك");
+  define("UNSUBSCRIBE_TITLE", "إلغاء الاشتراك");
   define("COUGH_TITLE", "أختبار الكورونا");
 
   define("UNSUPPORTED_BUTTON", "هذا الزر غير صحيح");
@@ -17,3 +19,6 @@
 
   define("MINISTRY_HOTLINE", "وزارة الصحة");
   define("MINISTRY_HOTLINE_2", "وزارة الصحة ۲");
+
+  define("SUCCESSFULL_SUBSCRIBE", "تم الاشتراك في الإحصائيات اليومية 📊");
+  define("SUCCESSFULL_UNSUBSCRIBE", "تم إلغاء الإشتراك");
