@@ -4,6 +4,6 @@
   /**
    * The functions when button is clicked
    */
-   interface Click {
+  interface Click {
     function __construct($senderID);  // The return payload when button is click
   }

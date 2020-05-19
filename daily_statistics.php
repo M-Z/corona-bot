@@ -1,6 +1,6 @@
 <?php
-    include_once __DIR__.'/config/secrets.php';
-    include_once __DIR__.'/classes/send.class.php';
+    require_once __DIR__.'/config/secrets.php';
+    require_once __DIR__.'/classes/send.class.php';
 
     /**
      * Automated cron job
@@ -28,8 +28,8 @@
             "\\nStay safe, stay home 🏡";
 
             foreach ($subsribedUsers as $user) {
-                if ($user['is_subscribed']) {
-                    $this->sendText($user['fb_id'], $message);
+                if ($user['is_subscribed'] && !is_null($user['fb_token'])) {
+                    $this->notify($user['fb_token'], $message);
                 }
             }
         }

@@ -2,7 +2,7 @@
 
   namespace corona_bot;
 
-  include_once __DIR__.'/models/click.abstract.php';
+  require_once 'models/click.interface.php';
 
   /**
    * Handles when the user presses get started.

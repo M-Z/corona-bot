@@ -2,14 +2,14 @@
 
 namespace corona_bot;
 
-include_once __DIR__.'/../models/callback.interface.php';
-include_once __DIR__.'/../getStarted.class.php';
-include_once __DIR__.'/../nav.class.php';
-include_once __DIR__.'/../hotlines.class.php';
-include_once __DIR__.'/../links.class.php';
-include_once __DIR__.'/../statistics.class.php';
-include_once __DIR__.'/../subscribe.class.php';
-include_once __DIR__.'/../help.class.php';
+require_once __DIR__. '/../models/callback.interface.php';
+require_once __DIR__. '/../getStarted.class.php';
+require_once __DIR__. '/../nav.class.php';
+require_once __DIR__. '/../hotlines.class.php';
+require_once __DIR__. '/../links.class.php';
+require_once __DIR__. '/../statistics.class.php';
+require_once __DIR__. '/../subscribe.class.php';
+require_once __DIR__. '/../help.class.php';
 
 /**
  * Text message to send to the user
@@ -38,7 +38,7 @@ class Text extends Send implements CallBack
     public function payload($payload)
     {
         try {
-            $message = $payload['message']['text'];
+            $message = strtolower($payload['message']['text']);
         } catch (\Exception $e) {
             $this->sendText($this->senderID, "Sorry, an error occured.");
             return;

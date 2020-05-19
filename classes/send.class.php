@@ -2,7 +2,7 @@
 
   namespace corona_bot;
 
-  include_once 'db.class.php';
+  require_once 'db.class.php';
 
   /**
    * Sends the request
@@ -51,6 +51,35 @@
       $this->Send($senderID, '"message":{"text":"'.$message.'"}');
     }
 
+    public function Notify($tokenID, $message): bool {
+
+      $ch = curl_init($this->webhookURL);
+
+      $jsonData = '{
+        "recipient":{"one_time_notif_token":"' . $tokenID . '"},
+        "message":{"text":"'. $message .'"}
+      }';
+
+      /* curl setting to send a json post data */
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      curl_exec($ch); // user will get the message
+      if (curl_errno($ch)) {
+        return false;
+      } else {
+        // check the HTTP status code of the request
+        $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($resultStatus !== 200) {
+          return false;
+        }
+      }
+
+      curl_close($ch);
+      return true;
+    }
+
+
     protected function getUserInfo($senderID) {
       $ch = curl_init(str_replace('{{sender_ID}}', $senderID, $this->profileURL));
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -85,9 +114,9 @@
         }
     }
 
-    protected function subscribe($ID) {
+    protected function subscribe($ID, $token) {
         $this->connect();
-        $this->query("UPDATE `fb_users` SET `is_subscribed`=1 WHERE `fb_id`=?", $ID);
+        $this->query("UPDATE `fb_users` SET `is_subscribed`=1, `fb_token`=? WHERE `fb_id`=?", $token, $ID);
         $this->sendText($ID, SUCCESSFULL_SUBSCRIBE);
     }
 

@@ -1,17 +1,18 @@
 <?php
 namespace corona_bot;
 
-include_once __DIR__.'/models/click.abstract.php';
+require_once 'models/click.interface.php';
 
 /**
  * Handles when the user presses get started.
  */
-class Links extends Send implements Click {
-
-    function __construct($senderID) {
-      $this->Send(
-        $senderID,
-        '"message":{
+class Links extends Send implements Click
+{
+    public function __construct($senderID)
+    {
+        $this->Send(
+          $senderID,
+          '"message":{
           "attachment":{
             "type":"template",
             "payload":{

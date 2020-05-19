@@ -6,7 +6,7 @@
   /**
    * Handles when a button is clicked
    */
-  class QuickReply extends Send implements CallBack
+  class Notification extends Send implements CallBack
   {
       private $allowedPayloads;
       private $senderID;
@@ -16,7 +16,6 @@
           $this->senderID = $senderID;
           $this->allowedPayloads = array(
             "CONFIRM_SUBSCRIBE_POSTBACK",     // User confirmed the subscribtion
-            "DECLINE_SUBSCRIBE_POSTBACK",     // User declined the subscribtion
           );
       }
 
@@ -26,21 +25,17 @@
       public function payload($payload)
       {
           try {
-              $payload = $payload['message']['quick_reply']['payload'];
+              $payload = $payload['optin'];
           } catch (\Exception $e) {
               $this->sendText($this->senderID, "Incorrect button clicked.");
               new Nav($this->senderID);
               return;
           }
 
-          if (in_array($payload, $this->allowedPayloads)) {
-              switch ($payload) {
+          if (in_array($payload['payload'], $this->allowedPayloads)) {
+              switch ($payload['payload']) {
                 case 'CONFIRM_SUBSCRIBE_POSTBACK':
-                    $this->Subscribe($this->senderID);
-                    break;
-
-                case 'DECLINE_SUBSCRIBE_POSTBACK':
-                    $this->Unsubscribe($this->senderID);
+                    $this->Subscribe($payload['one_time_notif_token']);
                     break;
 
                 default:

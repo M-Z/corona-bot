@@ -2,10 +2,11 @@
 
   namespace corona_bot;
 
-  include_once __DIR__. '/send.class.php';        // Dispatches messages
-  include_once __DIR__. '/message/text.class.php';
-  include_once __DIR__. '/message/postback.class.php';
-  include_once __DIR__. '/message/quickReply.class.php';
+  require_once 'send.class.php';            // Dispatches messages
+  require_once 'message/text.class.php';
+  require_once 'message/postback.class.php';
+  require_once 'message/notification.class.php';
+  require_once 'message/quickReply.class.php';
 
   /**
    * Receives the payload and parses it
@@ -25,21 +26,31 @@
             die("Error occured.");  // Error occured while parsing the JSON
         }
 
-        if (isset($input['entry'][0]['messaging'][0]['sender']['id'])) {
-            $inputArray     = $input['entry'][0]['messaging'][0];
-            $this->sender   = $inputArray['sender']['id'];
+        if (isset($input['entry'][0]['messaging'][0]['sender']['id']) || isset($input['sender']['id'])) {
+            $inputArray =
+              isset($input['entry'][0]['messaging'][0]['sender']['id']) ?
+                $input['entry'][0]['messaging'][0]:
+                $input['sender']['id'];
 
-            $this->infosUser = $this->getUserInfo($this->sender);
+            $this->sender     = $inputArray['sender']['id'];
 
-            if (strpos($this->infosUser['locale'], 'ar') !== false) {
-                include_once __DIR__. '/../dictionary/ar.lang.php';
-            } else {
-                include_once __DIR__. '/../dictionary/en.lang.php';
+            // Try loading the user's preferred language
+            try {
+              $this->infosUser = $this->getUserInfo($this->sender);
+
+              if (strpos($this->infosUser['locale'], 'ar') !== false) {
+                  require_once __DIR__. '/../dictionary/ar.lang.php';
+              } else {
+                  require_once __DIR__. '/../dictionary/en.lang.php';
+              }
+
+            } catch (\Exception $e) {
+              require_once __DIR__. '/../dictionary/en.lang.php';
             }
 
             $this->markSeen();    // Mark message as seen to user
 
-            $this->response = $this->checkType($inputArray);
+            $this->response   = $this->checkType($inputArray);
             $this->response->payload($inputArray);
         }
     }
@@ -53,6 +64,8 @@
               return new PostBack($this->sender);
           } elseif (isset($type['message']['quick_reply'])) {
               return new QuickReply($this->sender);
+          } elseif (isset($type['optin']['type']) && $type['optin']['type'] == 'one_time_notif_req') {
+              return new Notification($this->sender);
           }
 
           return new Text($this->sender);

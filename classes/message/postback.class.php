@@ -1,14 +1,14 @@
 <?php
   namespace corona_bot;
 
-  include_once __DIR__.'/../models/callback.interface.php';
-  include_once __DIR__.'/../getStarted.class.php';
-  include_once __DIR__.'/../nav.class.php';
-  include_once __DIR__.'/../hotlines.class.php';
-  include_once __DIR__.'/../links.class.php';
-  include_once __DIR__.'/../statistics.class.php';
-  include_once __DIR__.'/../subscribe.class.php';
-  include_once __DIR__.'/../help.class.php';
+  require_once __DIR__. '/../models/callback.interface.php';
+  require_once __DIR__. '/../getStarted.class.php';
+  require_once __DIR__. '/../nav.class.php';
+  require_once __DIR__. '/../hotlines.class.php';
+  require_once __DIR__. '/../links.class.php';
+  require_once __DIR__. '/../statistics.class.php';
+  require_once __DIR__. '/../subscribe.class.php';
+  require_once __DIR__. '/../help.class.php';
 
   /**
    * Handles when a button is clicked
@@ -66,7 +66,7 @@
 
                 case 'SUBSCRIBE_POSTBACK':
                     new Subscribe($this->senderID);
-                    break;
+                    return;
 
                 case 'HELP_POSTBACK':
                     new Help($this->senderID);
