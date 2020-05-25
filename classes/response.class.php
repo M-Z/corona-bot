@@ -26,13 +26,13 @@
             die("Error occured.");  // Error occured while parsing the JSON
         }
 
-        if (isset($input['entry'][0]['messaging'][0]['sender']['id']) || isset($input['sender']['id'])) {
-            $inputArray =
-              isset($input['entry'][0]['messaging'][0]['sender']['id']) ?
-                $input['entry'][0]['messaging'][0]:
-                $input['sender']['id'];
+        error_log(json_encode($input), 3, './classes/log.json');
 
+        if (isset($input['entry'][0]['messaging'][0]['sender']['id'])) {
+            $inputArray       = $input['entry'][0]['messaging'][0];
             $this->sender     = $inputArray['sender']['id'];
+
+            $this->markSeen();    // Mark message as seen to user
 
             // Try loading the user's preferred language
             try {
@@ -47,8 +47,6 @@
             } catch (\Exception $e) {
               require_once __DIR__. '/../dictionary/en.lang.php';
             }
-
-            $this->markSeen();    // Mark message as seen to user
 
             $this->response   = $this->checkType($inputArray);
             $this->response->payload($inputArray);

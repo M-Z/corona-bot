@@ -1,5 +1,7 @@
 <?php
 
+  require_once __DIR__.'/../config/secrets.php';
+
   if (isset($_REQUEST['hub_challenge']) && isset($_REQUEST['hub_verify_token'])) {
     $token = TOKEN;
     $verify_token = $_REQUEST['hub_verify_token'];

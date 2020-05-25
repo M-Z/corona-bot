@@ -35,7 +35,7 @@
           if (in_array($payload['payload'], $this->allowedPayloads)) {
               switch ($payload['payload']) {
                 case 'CONFIRM_SUBSCRIBE_POSTBACK':
-                    $this->Subscribe($payload['one_time_notif_token']);
+                    $this->Subscribe($this->senderID, $payload['one_time_notif_token']);
                     break;
 
                 default:
@@ -43,6 +43,8 @@
                     break;
             }
           } else {
+            $this->sendText($this->senderID, "2");
+
               $this->sendText($this->senderID, UNSUPPORTED_BUTTON);
           }
 

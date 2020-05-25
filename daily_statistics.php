@@ -1,6 +1,8 @@
 <?php
     require_once __DIR__.'/config/secrets.php';
     require_once __DIR__.'/classes/send.class.php';
+    require_once __DIR__.'/classes/subscribe.class.php';
+    require_once __DIR__. '/dictionary/en.lang.php';
 
     /**
      * Automated cron job
@@ -10,8 +12,9 @@
         public function __construct()
         {
             $this->connect();
-            $subsribedUsers = $this->query("SELECT * FROM `fb_users`");
+            $this->isConnected = true;
 
+            $subsribedUsers = $this->query("SELECT * FROM `fb_users`");
             $egyptStats = $this->getStats();
             $message = "Today's Egypt statistics 📊 "                                . "\\n" .
             "Cases: "                . $egyptStats['cases']               . "\\n" .
@@ -27,9 +30,26 @@
             "Tests per 1 million: "  . $egyptStats['testsPerOneMillion']  . "\\n" .
             "\\nStay safe, stay home 🏡";
 
+            $notifyMe = '"message": {
+              "attachment": {
+                "type":"template",
+                "payload": {
+                  "template_type":"one_time_notif_req",
+                  "title":"'. SUBSRIBTION_HELP .'",
+                  "payload":"CONFIRM_SUBSCRIBE_POSTBACK"
+                }
+              }
+            }';
+
             foreach ($subsribedUsers as $user) {
-                if ($user['is_subscribed'] && !is_null($user['fb_token'])) {
-                    $this->notify($user['fb_token'], $message);
+                if ($user['is_subscribed']) {
+                  $ID = is_null($user['fb_token']) ? $user['fb_id']: $user['fb_token'];
+
+                  // One-time notification
+                  $this->notify($ID, $message);
+                  $this->notify($ID, $notifyMe);
+                  $this->unsubscribe($user['fb_id']);
+                  new \corona_bot\Subscribe($user['fb_id']);
                 }
             }
         }

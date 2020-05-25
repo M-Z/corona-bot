@@ -13,14 +13,18 @@ use Exception;
 abstract class dbQuery
 {
     private $dbh;
+    protected $isConnected = false;
 
     protected function connect()
     {
+      if ($this->isConnected) return true;
+
         require_once(__DIR__."/../config/db.php");
         try {
             $db = new \PDO("mysql:dbname=" . DATABASE . ";host=" . SERVER, USERNAME, PASSWORD);
             $db->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->dbh = $db;
+            $this->isConnected = true;
             return true;
         } catch (PDOException $e) {
             return "We will be back right away.<br>" . $e->getMessage();
