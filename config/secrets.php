@@ -1,0 +1,4 @@
+<?php
+
+  define("TOKEN", "???");
+  define("ACCESS_TOKEN", "???");
