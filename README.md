@@ -15,11 +15,11 @@ A webserver.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Mario-Medhat/corona-bot). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/M-Z/corona-bot). 
 
 ## Authors
 
-* **Mario Medhat** - *Development work* - [Mario-Medhat](https://github.com/Mario-Medhat)
+* **Mario Medhat** - *Development work* - [M-Z](https://github.com/M-Z)
 * **Abdelhameed Hashem** - *Development work*
 
 ## License
